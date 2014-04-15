@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Geouser\n"
+"POT-Creation-Date: 2014-03-26 18:33-0300\n"
+"PO-Revision-Date: 2014-03-26 18:33-0300\n"
+"Last-Translator: \n"
+"Language-Team: moraleida.me <geouser@moraleida.me>\n"
+"Language: pt-BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../geouser.php:90 ../geouser.php:101
+msgid "Geouser options"
+msgstr "Opções do Geouser"
+
+#: ../geouser.php:102
+msgid "Select which post-types should use the Geouser metabox"
+msgstr "Selecione que tipos de posts usarão a metabox do Geouser"
+
+#: ../geouser.php:105
+msgid "Options saved successfully"
+msgstr "Opções salvas com sucesso"
+
+#: ../geouser.php:126
+msgid "Save options"
+msgstr "Salvar opções"
+
+#: ../geouser.php:135
+msgid "Location"
+msgstr "Localidade"
+
+#: ../geouser.php:148
+msgid "Pin your location in the map"
+msgstr "Marque sua localização no mapa"
+
+#: ../geouser.php:182
+msgid "Latitude"
+msgstr ""
+
+#: ../geouser.php:183
+msgid "Longitude"
+msgstr ""
+
+#: ../geouser.php:184
+msgid "Search address"
+msgstr "Procure um endereço"
+
+#~ msgid "Geolocalization"
+#~ msgstr "Geolocalização"
