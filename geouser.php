@@ -43,7 +43,8 @@ function geouser_scripts() {
 
     $params = array(
         'initial_lat' => GEOUSER_INITIAL_LAT,
-        'initial_lng' => GEOUSER_INITIAL_LNG
+        'initial_lng' => GEOUSER_INITIAL_LNG,
+        'ajaxurl' => admin_url( 'admin-ajax.php' )
     );
 
     wp_localize_script( 'geouser', 'geouser', $params );
@@ -134,7 +135,6 @@ function geouser_add_metaboxes() {
     foreach($types as $t) {
         add_meta_box( 'geouser', __( 'Location', 'geouser' ), 'geouser_post_metabox', $t );
     }
-
     
 }
 
@@ -181,7 +181,7 @@ function geouser_post_metabox() {
     </table>
     */ ?>
     <div id="geouser-map" style="display:block; width:100%; height: 300px; border: 1px solid #DFDFDF;"></div>
-    <?php _e( 'Latitude', 'geouser' ); ?>:&nbsp;<input type="text" id="shandora_listing_maplatitude" name="lat" value="<?php echo $location['lat']; ?>" />
-    <?php _e( 'Longitude', 'geouser' ); ?>:&nbsp;<input type="text" id="shandora_listing_maplongitude" name="lng" value="<?php echo $location['lng']; ?>" />
+    <?php /* _e( 'Latitude', 'geouser' ); ?>:&nbsp;<input type="text" id="shandora_listing_maplatitude" name="lat" value="<?php echo $location['lat']; ?>" />
+    <?php  _e( 'Longitude', 'geouser' ); ?>:&nbsp;<input type="text" id="shandora_listing_maplongitude" name="lng" value="<?php echo $location['lng']; ?>" /> */ ?>
     <p><input type="text" id="geouser-search" class="regular-text" placeholder="<?php _e( 'Search address', 'geouser' ); ?>" /></p>
 <?php }

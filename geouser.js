@@ -1,10 +1,18 @@
+// trim
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '');
+  };
+}
+
 jQuery(document).ready(function($){
 
 var _map_id = 'geouser-map';
 var _map = $('#' + _map_id);
 var _search = $('#geouser-locatization .regular-text');
-var _lat = $('#shandora_listing_maplatitude');
-var _lng = $('#shandora_listing_maplongitude');
+var _lat = $('#input_shandora_listing_maplatitude > input');
+var _lng = $('#input_shandora_listing_maplongitude > input');
+var city;
 
 if (!_map.length)
     return false;
@@ -71,6 +79,43 @@ function geouser_update_latlon(lat, lng) {
     _lng.val(lng);
 }
 
+function geouser_update_uf_city(props) {
+    $.each(props, function(i,v) {
+        liVal = $(this).text().trim();
+        if(liVal == uf) {
+            $(this).find('input').attr('checked','checked');
+
+            inprops = $(this).siblings('.children').find('li > label');
+            
+            $.each(inprops, function(i,v) {
+                liliVal = $(this).text().trim();
+                
+                if(liliVal == city) {
+                    $(this).find('input').attr('checked','checked');
+                } else {
+                    if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
+                        
+                        $.post(geouser.ajaxurl, {
+                            action: 'ecotemporadas_register_taxonomy',
+                            uf: uf,
+                            city: city
+                        }, function(response) {
+                            
+                            if(response == true) {
+                                // jQuery('tr.'+idents).detach();
+                            }
+                        
+                        });                        
+                    }
+                }
+                    
+            });
+        } else {
+            alert('A localidade deve estar dentro do país');
+        }
+    });
+}
+
 function geouser_addmarker(lat, lng) {
 
     center = new google.maps.LatLng(lat, lng);
@@ -135,14 +180,30 @@ function geouser_geocode(val, type) {
             geouser_update_latlon(location.lat(), location.lng());
             geouser_addmarker(location.lat(), location.lng());
 
-            $('.regular-text').val('');
+            $('#geouser .regular-text').val('');
             // Campos separados por tipo de endereço
             $.each(comp, function(i,v) {
-                $('#geouser-search-'+comp[i].types[0]).val(comp[i].long_name);
+                if('administrative_area_level_1' == comp[i].types[0]) {
+                    uf = comp[i].short_name;
+                    $('#geouser-search-'+comp[i].types[0]).val(comp[i].short_name);
+                } else {
+                    if('administrative_area_level_2' == comp[i].types[0])
+                        city = comp[i].long_name;
+                    $('#geouser-search-'+comp[i].types[0]).val(comp[i].long_name);
+                }
+                
             });
 
-            $('#geouser-search').val('');
+            $('#property-locationchecklist input').attr('checked', false);
+            props = $('#property-locationchecklist > li > label');
+            geouser_update_uf_city(props);
+
+            _lat.val(location.lat().toString());
+            $('#geouser-search').val();
             $('#geouser-search').val(results[0].formatted_address);
+
+            
+
 
         });                
     }
