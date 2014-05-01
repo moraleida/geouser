@@ -188,6 +188,7 @@ function geouser_post_metabox() {
     <p><input type="text" id="geouser-search" class="regular-text" placeholder="<?php _e( 'Search address', 'geouser' ); ?>" /></p>
 <?php }
 
+add_action( 'wp_ajax_ecotemporadas_register_taxonomy', 'ecotemporadas_register_taxonomy' );
 function ecotemporadas_register_taxonomy() {
 
     $uf = $_POST['uf'];

@@ -111,12 +111,14 @@ function geouser_update_uf_city(props) {
                             flag = true;
                             console.log(liliVal+'=='+city);
                             $(this).find('input').prop('checked');
+
+                            return false;
                         }
                     });
                 }
                 
                 if(!flag) {
-                    console.log('nenhuma cidade com o nome '+liliVal);
+                    console.log('nenhuma cidade com o nome '+city+' em '+uf);
                     if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
                             
                             $.post(geouser.ajaxurl, {
@@ -130,9 +132,11 @@ function geouser_update_uf_city(props) {
                                 }
                             
                             });                        
-                        }
-                    }    
-                }            
+                    }
+                    
+                    return false;                    
+                }    
+            }            
 
         } else {
             alert('A localidade deve estar dentro do país');
