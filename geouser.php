@@ -210,6 +210,6 @@ function ecotemporadas_register_taxonomy() {
     }
 
     header( "Content-Type: application/json" );
-    echo json_encode($bool);
+    echo json_encode($response);
     exit;
 }

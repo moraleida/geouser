@@ -85,6 +85,8 @@ function geouser_update_latlon(lat, lng) {
 
 function geouser_update_uf_city(props) {
     var flag = false;
+    var ufObj;
+
     $.each(props, function(i,v) {
         liVal = $(this).text().trim();
         
@@ -92,11 +94,9 @@ function geouser_update_uf_city(props) {
         if($.inArray(liVal.toLowerCase(), _allowedLvl1) > -1) {
 
             // estamos dentro do estado da cidade selecionada?
-            console.log(liVal+'=='+uf+'?');
             if(liVal == uf) {
-                console.log(liVal+'=='+uf);
                 ufObj = $(this);
-                $(this).find('input').prop('checked');
+                $(this).find('input').prop('checked', true);
 
                 inprops = $(this).siblings('.children').find('li > label');
                 
@@ -106,11 +106,9 @@ function geouser_update_uf_city(props) {
                         
                         // a cidade selecionadas já existe na lista?
                         // se sim, marque
-                        console.log(liliVal+'=='+city+'?');
                         if(liliVal == city) {
                             flag = true;
-                            console.log(liliVal+'=='+city);
-                            $(this).find('input').prop('checked');
+                            $(this).find('input').prop('checked', true);
 
                             return false;
                         }
@@ -118,7 +116,6 @@ function geouser_update_uf_city(props) {
                 }
                 
                 if(!flag) {
-                    console.log('nenhuma cidade com o nome '+city+' em '+uf);
                     if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
                             
                             $.post(geouser.ajaxurl, {
@@ -128,7 +125,13 @@ function geouser_update_uf_city(props) {
                             }, function(response) {
                                 
                                 if(response.status == 'ok') {
+                                    children = ufObj.siblings('.children');
+                                    if(children.length < 1)
+                                        ufObj.after('<ul class="children"></ul>');
+
                                     ufObj.siblings('.children').append('<label class="selectit"><input checked="checked" value="'+response.term_id+'" type="checkbox" name="tax_input[property-location][]" id="in-property-location-'+response.term_id+'"> '+response.name+'</label>');
+
+                                    alert(city+'-'+uf+' adicionada.');
                                 }
                             
                             });                        
