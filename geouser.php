@@ -139,8 +139,10 @@ function geouser_add_metaboxes() {
 }
 
 function geouser_post_metabox() {
+    get_currentuserinfo();
+
     $location = array( 'lat' => false, 'lng' => false );
-    if ( $loc = get_user_meta( $user->ID, 'geouser-location', true ) ) {
+    if ( $loc = get_user_meta( $current_user->ID, 'geouser-location', true ) ) {
         $location['lat'] = $loc[0];
         $location['lng'] = $loc[1];
     }

@@ -13,6 +13,7 @@ var _search = $('#geouser-locatization .regular-text');
 var _lat = $('#input_shandora_listing_maplatitude > input');
 var _lng = $('#input_shandora_listing_maplongitude > input');
 var city;
+var uf;
 
 if (!_map.length)
     return false;
@@ -82,6 +83,7 @@ function geouser_update_latlon(lat, lng) {
 function geouser_update_uf_city(props) {
     $.each(props, function(i,v) {
         liVal = $(this).text().trim();
+        
         if(liVal == uf) {
             ufObj = $(this);
             $(this).find('input').prop('checked');
