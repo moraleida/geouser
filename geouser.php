@@ -185,3 +185,28 @@ function geouser_post_metabox() {
     <?php  _e( 'Longitude', 'geouser' ); ?>:&nbsp;<input type="text" id="shandora_listing_maplongitude" name="lng" value="<?php echo $location['lng']; ?>" /> */ ?>
     <p><input type="text" id="geouser-search" class="regular-text" placeholder="<?php _e( 'Search address', 'geouser' ); ?>" /></p>
 <?php }
+
+function ecotemporadas_register_taxonomy() {
+
+    $uf = $_POST['uf'];
+    $city = $_POST['city'];
+
+    if($uf && $city) {
+
+        $termUF = get_term_by( 'name', $uf, 'property-location' );
+        $termCity = wp_insert_term( $city, 'property-location', array( 'parent' => $termUF->term_id ) );
+
+        if(!is_wp_error( $termCity )) {
+            $response = array('status' => 'ok', 'term_id' => $termCity['term_id'], 'name' => $city );
+        } else {
+            $response = array('status' => 'erro', 'msg' =>  $termCity->get_error_message() );
+        }
+
+    } else {
+        $response = array('status' => 'erro', 'msg' => 'Dados incompletos');
+    }
+
+    header( "Content-Type: application/json" );
+    echo json_encode($bool);
+    exit;
+}

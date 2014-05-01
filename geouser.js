@@ -83,7 +83,8 @@ function geouser_update_uf_city(props) {
     $.each(props, function(i,v) {
         liVal = $(this).text().trim();
         if(liVal == uf) {
-            $(this).find('input').attr('checked','checked');
+            ufObj = $(this);
+            $(this).find('input').prop('checked');
 
             inprops = $(this).siblings('.children').find('li > label');
             
@@ -91,7 +92,7 @@ function geouser_update_uf_city(props) {
                 liliVal = $(this).text().trim();
                 
                 if(liliVal == city) {
-                    $(this).find('input').attr('checked','checked');
+                    $(this).find('input').prop('checked');
                 } else {
                     if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
                         
@@ -101,8 +102,8 @@ function geouser_update_uf_city(props) {
                             city: city
                         }, function(response) {
                             
-                            if(response == true) {
-                                // jQuery('tr.'+idents).detach();
+                            if(response.status == 'ok') {
+                                ufObj.siblings('.children').append('<label class="selectit"><input checked="checked" value="'+response.term_id+'" type="checkbox" name="tax_input[property-location][]" id="in-property-location-'+response.term_id+'"> '+response.name+'</label>');
                             }
                         
                         });                        
