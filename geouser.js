@@ -5,6 +5,8 @@ if (!String.prototype.trim) {
   };
 }
 
+
+
 jQuery(document).ready(function($){
 
 var _map_id = 'geouser-map';
@@ -12,6 +14,7 @@ var _map = $('#' + _map_id);
 var _search = $('#geouser-locatization .regular-text');
 var _lat = $('#input_shandora_listing_maplatitude > input');
 var _lng = $('#input_shandora_listing_maplongitude > input');
+var _allowedLvl1 = ['ro','ac','am','rr','pa','ap','to','ma','pi','ce','rn','pb','pe','al','se','ba','mg','es','rj','sp','pr','sc','rs','ms','mt','go','df'];
 var city;
 var uf;
 
@@ -84,35 +87,37 @@ function geouser_update_uf_city(props) {
     $.each(props, function(i,v) {
         liVal = $(this).text().trim();
         
-        if(liVal == uf) {
-            ufObj = $(this);
-            $(this).find('input').prop('checked');
+        if($.inArray(liVal.toLowerCase(), _allowedLvl1) > -1) {
+            if(liVal == uf) {
+                ufObj = $(this);
+                $(this).find('input').prop('checked');
 
-            inprops = $(this).siblings('.children').find('li > label');
-            
-            $.each(inprops, function(i,v) {
-                liliVal = $(this).text().trim();
+                inprops = $(this).siblings('.children').find('li > label');
                 
-                if(liliVal == city) {
-                    $(this).find('input').prop('checked');
-                } else {
-                    if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
-                        
-                        $.post(geouser.ajaxurl, {
-                            action: 'ecotemporadas_register_taxonomy',
-                            uf: uf,
-                            city: city
-                        }, function(response) {
-                            
-                            if(response.status == 'ok') {
-                                ufObj.siblings('.children').append('<label class="selectit"><input checked="checked" value="'+response.term_id+'" type="checkbox" name="tax_input[property-location][]" id="in-property-location-'+response.term_id+'"> '+response.name+'</label>');
-                            }
-                        
-                        });                        
-                    }
-                }
+                $.each(inprops, function(i,v) {
+                    liliVal = $(this).text().trim();
                     
-            });
+                    if(liliVal == city) {
+                        $(this).find('input').prop('checked');
+                    } else {
+                        if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
+                            
+                            $.post(geouser.ajaxurl, {
+                                action: 'ecotemporadas_register_taxonomy',
+                                uf: uf,
+                                city: city
+                            }, function(response) {
+                                
+                                if(response.status == 'ok') {
+                                    ufObj.siblings('.children').append('<label class="selectit"><input checked="checked" value="'+response.term_id+'" type="checkbox" name="tax_input[property-location][]" id="in-property-location-'+response.term_id+'"> '+response.name+'</label>');
+                                }
+                            
+                            });                        
+                        }
+                    }
+                        
+                });
+            }            
         } else {
             alert('A localidade deve estar dentro do país');
         }
