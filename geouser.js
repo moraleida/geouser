@@ -12,8 +12,11 @@ jQuery(document).ready(function($){
 var _map_id = 'geouser-map';
 var _map = $('#' + _map_id);
 var _search = $('#geouser-locatization .regular-text');
-var _lat = $('#input_shandora_listing_maplatitude > input');
-var _lng = $('#input_shandora_listing_maplongitude > input');
+var _lat = $('#input_shandora_listing_maplatitude');
+var _lng = $('#input_shandora_listing_maplongitude');
+var _cep = $('#input_shandora_listing_zip');
+var _end = $('#input_shandora_listing_address');
+
 var _allowedLvl1 = ['ro','ac','am','rr','pa','ap','to','ma','pi','ce','rn','pb','pe','al','se','ba','mg','es','rj','sp','pr','sc','rs','ms','mt','go','df'];
 var city;
 var uf;
@@ -221,6 +224,9 @@ function geouser_geocode(val, type) {
                 } else {
                     if('administrative_area_level_2' == comp[i].types[0])
                         city = comp[i].long_name;
+                    if('postal_code' == comp[i].types[0])
+                        _zip.val(comp[i].long_name);
+
                     $('#geouser-search-'+comp[i].types[0]).val(comp[i].long_name);
                 }
                 
@@ -233,6 +239,7 @@ function geouser_geocode(val, type) {
             _lat.val(location.lat().toString());
             $('#geouser-search').val();
             $('#geouser-search').val(results[0].formatted_address);
+            _end.val(results[0].formatted_address);
 
             
 
