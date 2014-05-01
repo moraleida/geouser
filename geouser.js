@@ -84,23 +84,40 @@ function geouser_update_latlon(lat, lng) {
 }
 
 function geouser_update_uf_city(props) {
+    var flag = false;
     $.each(props, function(i,v) {
         liVal = $(this).text().trim();
         
+        // estamos dentro dos estados permitidos?
         if($.inArray(liVal.toLowerCase(), _allowedLvl1) > -1) {
+
+            // estamos dentro do estado da cidade selecionada?
+            console.log(liVal+'=='+uf+'?');
             if(liVal == uf) {
+                console.log(liVal+'=='+uf);
                 ufObj = $(this);
                 $(this).find('input').prop('checked');
 
                 inprops = $(this).siblings('.children').find('li > label');
                 
-                $.each(inprops, function(i,v) {
-                    liliVal = $(this).text().trim();
-                    
-                    if(liliVal == city) {
-                        $(this).find('input').prop('checked');
-                    } else {
-                        if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
+                if(inprops.length > 0) {
+                    $.each(inprops, function(i,v) {
+                        liliVal = $(this).text().trim();
+                        
+                        // a cidade selecionadas já existe na lista?
+                        // se sim, marque
+                        console.log(liliVal+'=='+city+'?');
+                        if(liliVal == city) {
+                            flag = true;
+                            console.log(liliVal+'=='+city);
+                            $(this).find('input').prop('checked');
+                        }
+                    });
+                }
+                
+                if(!flag) {
+                    console.log('nenhuma cidade com o nome '+liliVal);
+                    if(confirm(city+'-'+uf+' não encontrado. Adicionar?')) {
                             
                             $.post(geouser.ajaxurl, {
                                 action: 'ecotemporadas_register_taxonomy',
@@ -114,12 +131,12 @@ function geouser_update_uf_city(props) {
                             
                             });                        
                         }
-                    }
-                        
-                });
-            }            
+                    }    
+                }            
+
         } else {
             alert('A localidade deve estar dentro do país');
+            return false;
         }
     });
 }
