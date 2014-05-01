@@ -94,7 +94,7 @@ function geouser_update_uf_city(props) {
         liVal = $(this).text().trim();
         
         // estamos dentro dos estados permitidos?
-        if($.inArray(liVal.toLowerCase(), _allowedLvl1) > -1) {
+        if($.inArray(uf.toLowerCase(), _allowedLvl1) > -1) {
 
             // estamos dentro do estado da cidade selecionada?
             if(liVal == uf) {

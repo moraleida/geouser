@@ -39,7 +39,7 @@ function geouser_scripts() {
         return false;
 
     wp_enqueue_script( 'google-maps-v3', 'http://maps.google.com/maps/api/js?sensor=false' );
-    wp_enqueue_script( 'geouser', plugins_url( '/geouser.js', __FILE__ ) );
+    wp_enqueue_script( 'geouser', plugins_url( '/geouser.js?v1.1', __FILE__ ) );
 
     $params = array(
         'initial_lat' => GEOUSER_INITIAL_LAT,
