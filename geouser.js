@@ -225,7 +225,7 @@ function geouser_geocode(val, type) {
                     if('administrative_area_level_2' == comp[i].types[0])
                         city = comp[i].long_name;
                     if('postal_code' == comp[i].types[0])
-                        _zip.val(comp[i].long_name);
+                        _cep.val(comp[i].long_name);
 
                     $('#geouser-search-'+comp[i].types[0]).val(comp[i].long_name);
                 }
